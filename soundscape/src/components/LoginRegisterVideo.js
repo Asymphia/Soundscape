@@ -23,9 +23,9 @@ const LoginRegisterVideo = () => {
             </video>
             <div className='text-white sm:fixed absolute top-0 left-0 sm:bg-gray-transparent sm:bg-none bg-gradient sm:h-screen h-[40vh] sm:w-[50vw] w-full font-nunito md:p-lg p-md lg:pr-xl pr-md flex flex-wrap content-between'>
                 <div className='w-full'>
-                    <img src={logo} className='md:w-[170px] sm:w-[130px] w-[200px] sm:m-0 mx-auto mt-lg' alt='logo' />
+                    <img src={logo} className='md:w-[170px] sm:w-[130px] w-[300px] sm:m-0 mx-auto mt-[calc(20vh-65px)]' alt='logo' />
                 </div>
-                <div className='space-y-md sm:block hidden'>
+                <div className='md:space-y-md space-y-vsm sm:block hidden'>
                     <h1 className='font-nunito font-black md:text-lg text-md'>
                         Spotify Music Insights
                     </h1>
@@ -35,7 +35,7 @@ const LoginRegisterVideo = () => {
                 </div>
                 <div className='w-full'>
                     <p className='font-kanit md:text-sm sm:text-vsm text-vvsm text-center sm:opacity-100 opacity-30'>
-                        Video by <a className='underline' href={url} target="_blank">Eli Eli</a> on YouTube
+                        Video by <a className='underline' href={url} target="_blank" rel="noreferrer">Eli Eli</a> on YouTube
                     </p>
                 </div>
             </div>

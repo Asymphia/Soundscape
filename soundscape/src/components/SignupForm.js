@@ -55,7 +55,7 @@ const SignupForm = () => {
     return (
         <div className='bg-gray sm:w-[50%] sm:h-screen h-[60vh] lg:px-xl md:px-vlg sm:px-lg px-md flex flex-wrap justify-center content-center'>
             <img src={logo} alt='logo' className='md:w-[290px] w-[200px] sm:block hidden mb-xxl' />
-            <form onSubmit={handleSubmit} className='space-y-lg w-full'>
+            <form onSubmit={handleSubmit} className='md:space-y-lg space-y-md w-full'>
                 <FormInput type="text" onChange={e => setEmail(e.target.value)} value={email} placeholder={"E-mail"} error={errorField.includes('email')} />
 
                 <FormInput type="password" onChange={e => setPassword(e.target.value)} value={password} placeholder={"Password"} error={errorField.includes('password')} />

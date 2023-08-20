@@ -1,10 +1,9 @@
 import { useState } from 'react'
-import { useAuthContext } from './useAuthContext'
 
 export const useSignup = () => {
     const [error, setError] = useState(null)
     const [isLoading, setIsLoading] = useState(null)
-    const { dispatch } = useAuthContext()
+    const [spotifyAuthorizeURL, setSpotifyAuthorizeURL] = useState('');
 
     const signup = async (email, password) => {
         setIsLoading(true)
@@ -24,13 +23,30 @@ export const useSignup = () => {
         }
 
         if(response.ok){
-            // save the user to local storage
-            localStorage.setItem('user', JSON.stringify(json))
+            const { userId } = json;
 
-            // update the auth context
-            dispatch({ type: 'LOGIN', payload: json })
+            const res = await fetch('/api/user/auth', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({userId})
+            })
 
-            setIsLoading(false)
+            const jsonRes = await res.json()
+
+            if(!res.ok){
+                setIsLoading(false)
+                setError(jsonRes.error)
+            }
+
+            if(res.ok){
+                const { authorizeURL } = jsonRes
+                setSpotifyAuthorizeURL(authorizeURL);
+
+                setIsLoading(false)
+
+                // Redirect the user to the Spotify authorization page
+                window.location.href = authorizeURL;
+            }
         }
     }
 
