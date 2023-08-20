@@ -19,17 +19,18 @@ router.get('/spotify-callback', async (req, res) => {
     try {
         const data = await spotifyApi.authorizationCodeGrant(code);
 
-        const accessToken = data.body.access_token;
+        const accessToken = data.body.access_token
+        const refreshToken = data.body.refresh_token
 
         const userIdObjectId = new mongoose.Types.ObjectId(userId);
         const user = await User.findByIdAndUpdate(userIdObjectId, {spotifyAccessToken: accessToken})
-
 
         if(!user){
             throw new Error('User not found')
         }
 
-        user.spotifyAccessToken = accessToken;
+        user.spotifyAccessToken = accessToken
+        user.spotifyRefreshToken = refreshToken
         await user.save();
 
         res.redirect(`http://localhost:3000/login`)

@@ -16,6 +16,9 @@ const userSchema = new Schema({
     },
     spotifyAccessToken: {
         type: String
+    },
+    spotifyRefreshToken: {
+        type: String
     }
 })
 

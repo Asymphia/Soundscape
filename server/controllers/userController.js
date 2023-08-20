@@ -16,7 +16,7 @@ const loginUser = async (req, res) => {
         // create token
         const token = createToken(user._id)
 
-        res.status(200).json({email, token})
+        res.status(200).json({ token })
     } catch (err) {
         res.status(400).json({error: err.message})
     }
@@ -46,7 +46,7 @@ const authorizeSpotify = async (req, res) => {
         redirectUri: process.env.SPOTIFY_REDIRECT_URI
     })
 
-    const scopes = ['user-read-private', 'user-read-email', 'user-library-modify']
+    const scopes = ['user-read-private', 'user-read-email', 'user-top-read', 'user-read-playback-state', 'user-read-currently-playing', 'user-modify-playback-state', 'playlist-modify-public', 'playlist-modify-private']
 
     const authorizeURL = spotifyApi.createAuthorizeURL(scopes, userId, true)
 
