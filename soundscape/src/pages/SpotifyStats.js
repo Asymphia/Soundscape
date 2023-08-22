@@ -1,12 +1,16 @@
 import { useAuthContext } from '../hooks/useAuthContext'
 import { useState, useEffect } from 'react'
+import Menu from '../components/Menu'
+import { useSpotifyContext } from '../hooks/useSpotifyContext'
+import Stats from '../components/Stats'
+import Footer from '../components/Footer'
 
 const SpotifyStats = () => {
     const { user } = useAuthContext()
+    const { data, dispatch } = useSpotifyContext()
 
     const [error, setError] = useState(null)
-    const [isLoading, setIsLoading] = useState(null)
-    const [data, setData] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -27,16 +31,26 @@ const SpotifyStats = () => {
 
             if (response.ok) {
                 setIsLoading(false)
-                setData(json)
+                dispatch({type: 'SET_SPOTIFY_DATA', payload: json})
                 console.log(json)
             }
         }
-        fetchData()
-    }, [])
+
+
+        if(user){
+            fetchData()
+        }
+    }, [dispatch, user])
 
     return (
         <div>
-            { error && <p>{ error }</p> }
+            <Menu currentPage={'Spotify Stats'}  />
+            <div className='bg-gray w-full'>
+                { isLoading && <p>...</p> }
+                { error && <p>{ error }</p> }
+                { data && <Stats />}
+            </div>
+            <Footer />
         </div>
     )
 }

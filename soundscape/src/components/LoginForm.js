@@ -44,9 +44,9 @@ const LoginForm = () => {
 
                 <FormInput type="password" onChange={e => setPassword(e.target.value)} value={password} placeholder={"Password"} error={errorField.includes('password')} />
 
-                <p className='cursor-pointer text-right text-white font-kanit md:text-sm text-vsm pb-lg'>
+                <Link to='/' className='block cursor-pointer text-right text-white font-kanit md:text-sm text-vsm pb-lg'>
                     Forgot password?
-                </p>
+                </Link>
 
                 <div className='flex justify-center'>
                     <Button text={"SIGN IN"} disabled={isLoading} />
