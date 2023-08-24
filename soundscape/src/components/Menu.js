@@ -26,25 +26,27 @@ const Menu = ({ currentPage }) => {
         : { backgroundColor: '#33E1ED' }
 
     return (
-        <div className='fixed w-[200px] h-screen bg-lightgray py-lg px-md font-kanit text-sm flex flex-wrap content-between'>
+        <div className='fixed md:w-[200px] w-[170px] h-screen bg-lightgray py-lg px-md font-kanit md:text-sm text-vsm flex flex-wrap content-between'>
             <img src={logo} alt='Logo' />
 
-            <nav className='space-y-md'>
-                <Link to='/' className={`flex flex-nowrap ${currentPage === 'Spotify Stats' ? 'text-blue' : 'text-white hover:underline'}`} >
-                    <img src={currentPage === 'Spotify Stats' ? spotifyStatsActive : spotifyStats} className='mr-vsm' alt='link to Spotify Stats' />
-                    Spotify Stats
-                </Link>
+            { data &&
+                <nav className='space-y-md'>
+                    <Link to='/' className={`flex flex-nowrap ${currentPage === 'Spotify Stats' ? 'text-blue' : 'text-white hover:underline'}`} >
+                        <img src={currentPage === 'Spotify Stats' ? spotifyStatsActive : spotifyStats} className='mr-vsm' alt='link to Spotify Stats' />
+                        Spotify Stats
+                    </Link>
 
-                <Link to='/' className={`flex flex-nowrap ${currentPage === 'Create Playlist' ? 'text-blue' : 'text-white hover:underline'}`} >
-                    <img src={currentPage === 'Create Playlist' ? createPlaylistActive : createPlaylist} className='mr-vsm' alt='link to creating playlist' />
-                    Create Playlist
-                </Link>
+                    <Link to='/' className={`flex flex-nowrap ${currentPage === 'Create Playlist' ? 'text-blue' : 'text-white hover:underline'}`} >
+                        <img src={currentPage === 'Create Playlist' ? createPlaylistActive : createPlaylist} className='mr-vsm' alt='link to creating playlist' />
+                        Create Playlist
+                    </Link>
 
-                <Link to='/' className={`flex flex-nowrap ${currentPage === 'Settings' ? 'text-blue' : 'text-white hover:underline'}`} >
-                    <img src={currentPage === 'Settings' ? settingsActive : settings} className='mr-vsm' alt='link to settings' />
-                    Settings
-                </Link>
-            </nav>
+                    <Link to='/' className={`flex flex-nowrap ${currentPage === 'Settings' ? 'text-blue' : 'text-white hover:underline'}`} >
+                        <img src={currentPage === 'Settings' ? settingsActive : settings} className='mr-vsm' alt='link to settings' />
+                        Settings
+                    </Link>
+                </nav>
+            }
 
             <div className='text-center w-full'>
                 <div style={backgroundImageStyle} className={`w-vlg h-vlg rounded-full m-auto`}></div>
@@ -52,7 +54,7 @@ const Menu = ({ currentPage }) => {
                     Logged as: <br />
                     { data ? data.userData.email : '...' }
                 </p>
-                <button onClick={handleClick} className='w-full py-md w-fit bg-blue font-kanit text-sm rounded-lg transition hover:bg-lightblue'>LOGOUT</button>
+                <button onClick={handleClick} className='w-full py-md w-fit bg-blue font-kanit md:text-sm text-vsm rounded-lg transition hover:bg-lightblue'>LOGOUT</button>
             </div>
         </div>
     )

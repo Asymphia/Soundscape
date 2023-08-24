@@ -37,13 +37,13 @@ const ArtistSong = ({image, num, name, preview}) => {
     }
 
     return (
-        <div className='font-kanit text-sm flex flex-nowrap items-center'>
-            <img src={image} alt={`Album cover for ${name} song`} className='w-vlg h-vlg rounded-sm mr-md' />
-            <img src={topImage} alt={`Top ${num + 1} song`} className='w-[24px] h-[24px] mr-vsm' />
-            <p className='mr-md'>
+        <div className='font-kanit md:text-sm text-vsm flex sm:flex-nowrap flex-wrap items-center'>
+            <img src={image} alt={`Album cover for ${name} song`} className='w-vlg h-vlg rounded-sm sm:mr-md sm:ml-0 ml-auto mr-vsm' />
+            <img src={topImage} alt={`Top ${num + 1} song`} className='w-[24px] h-[24px] sm:mr-vsm sm:ml-0 mr-auto ml-vsm' />
+            <p className='sm:mr-md sm:w-fit w-full sm:text-left text-center'>
                 {name}
             </p>
-            <img src={isPlaying ? previewImgActive : isHovered ? previewImgHover : previewImg} onClick={togglePlay} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} alt='preview song' className='cursor-pointer h-[24px] w-[24px]' />
+            <img src={isPlaying ? previewImgActive : isHovered ? previewImgHover : previewImg} onClick={togglePlay} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} alt='preview song' className='cursor-pointer h-[24px] w-[24px] sm:mx-0 mx-auto' />
                 {isPlaying && (
                     <audio controls autoPlay className='hidden' onPlay={changeVolume} onEnded={togglePlay}>
                         <source src={preview} type="audio/mp3" />

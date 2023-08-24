@@ -70,10 +70,20 @@ const getTopArtistTrack = async (spotifyApi, topArtistId) => {
     return topArtistsTracks
 }
 
+const getCurrentPlayback = async (spotifyApi) => {
+    try {
+        const playbackResponse = await spotifyApi.getMyCurrentPlaybackState()
+        return playbackResponse.body
+    } catch (err) {
+        throw err
+    }
+}
+
 module.exports = {
     getUser,
     getUserTopArtists,
     getUserTopTracks,
     getRelatedArtists,
-    getTopArtistTrack
+    getTopArtistTrack,
+    getCurrentPlayback
 }

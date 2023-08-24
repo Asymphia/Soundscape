@@ -7,7 +7,8 @@ const {
     getUserTopArtists,
     getUserTopTracks,
     getRelatedArtists,
-    getTopArtistTrack
+    getTopArtistTrack,
+    getCurrentPlayback
 } = require('../assets/spotifyFunctions')
 
 // refresh spotify tokens
@@ -100,4 +101,147 @@ const getProfile = async (req, res) => {
     }
 }
 
-module.exports = { getProfile }
+const getCurrentSong = async (req, res) => {
+    const token = req.headers.authorization.split(' ')[1]
+    const decodedToken = jwt.verify(token, process.env.SECRET)
+    const id = decodedToken._id
+
+    const userId = new mongoose.Types.ObjectId(id)
+    const user = await User.findById(userId)
+
+    const spotifyApi = new SpotifyWebApi({
+        clientId: process.env.SPOTIFY_CLIENT_ID,
+        clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+        redirectUri: process.env.SPOTIFY_REDIRECT_URI
+    })
+
+    try {
+        spotifyApi.setAccessToken(user.spotifyAccessToken)
+        spotifyApi.setRefreshToken(user.spotifyRefreshToken)
+
+        const currentPlayback = await getCurrentPlayback(spotifyApi)
+
+        if (currentPlayback && currentPlayback.item) {
+            const currentSong = {
+                name: currentPlayback.item.name,
+                artist: currentPlayback.item.artists.map(artist => artist.name).join(', '),
+                image: currentPlayback.item.album.images[0].url
+            }
+
+            res.status(200).json(currentSong)
+        } else {
+            res.status(200).json({ message: 'No song currently playing.' })
+        }
+    } catch (err) {
+        if (err.statusCode === 401) {
+            try {
+                const newAccessToken = await refreshToken(id)
+                spotifyApi.setAccessToken(newAccessToken)
+
+                const currentPlayback = await getCurrentPlayback(spotifyApi)
+
+                if (currentPlayback && currentPlayback.item) {
+                    const currentSong = {
+                        name: currentPlayback.item.name,
+                        artist: currentPlayback.item.artists.map(artist => artist.name).join(', '),
+                        image: currentPlayback.item.album.images[0].url
+                    };
+
+                    res.status(200).json(currentSong);
+                } else {
+                    res.status(200).json({ message: 'No song currently playing.' });
+                }
+            } catch (refreshErr) {
+                res.status(400).json({ error: refreshErr.message });
+            }
+        } else {
+            res.status(400).json({ error: err.message });
+        }
+    }
+}
+
+const skipToPreviousSong = async (req, res) => {
+    const token = req.headers.authorization.split(' ')[1]
+    const decodedToken = jwt.verify(token, process.env.SECRET)
+    const id = decodedToken._id
+
+    const userId = new mongoose.Types.ObjectId(id)
+    const user = await User.findById(userId)
+
+    const spotifyApi = new SpotifyWebApi({
+        clientId: process.env.SPOTIFY_CLIENT_ID,
+        clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+        redirectUri: process.env.SPOTIFY_REDIRECT_URI
+    })
+
+    try {
+        spotifyApi.setAccessToken(user.spotifyAccessToken)
+        spotifyApi.setRefreshToken(user.spotifyRefreshToken)
+
+        await spotifyApi.skipToPrevious()
+
+        res.status(200).json({ message: 'Skipped to previous song.' })
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+}
+
+const skipToNextSong = async (req, res) => {
+    const token = req.headers.authorization.split(' ')[1]
+    const decodedToken = jwt.verify(token, process.env.SECRET)
+    const id = decodedToken._id
+
+    const userId = new mongoose.Types.ObjectId(id)
+    const user = await User.findById(userId)
+
+    const spotifyApi = new SpotifyWebApi({
+        clientId: process.env.SPOTIFY_CLIENT_ID,
+        clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+        redirectUri: process.env.SPOTIFY_REDIRECT_URI
+    })
+
+    try {
+        spotifyApi.setAccessToken(user.spotifyAccessToken)
+        spotifyApi.setRefreshToken(user.spotifyRefreshToken)
+
+        await spotifyApi.skipToNext()
+
+        res.status(200).json({ message: 'Skipped to next song.' })
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+}
+
+const togglePlayback = async (req, res) => {
+    const token = req.headers.authorization.split(' ')[1]
+    const decodedToken = jwt.verify(token, process.env.SECRET)
+    const id = decodedToken._id
+
+    const userId = new mongoose.Types.ObjectId(id)
+    const user = await User.findById(userId)
+
+    const spotifyApi = new SpotifyWebApi({
+        clientId: process.env.SPOTIFY_CLIENT_ID,
+        clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+        redirectUri: process.env.SPOTIFY_REDIRECT_URI
+    })
+
+    try {
+        spotifyApi.setAccessToken(user.spotifyAccessToken)
+        spotifyApi.setRefreshToken(user.spotifyRefreshToken)
+
+        const currentPlayback = await getCurrentPlayback(spotifyApi)
+
+        if (currentPlayback && currentPlayback.is_playing) {
+            await spotifyApi.pause()
+            res.status(200).json({ message: 'Paused the playback.' })
+        } else {
+            await spotifyApi.play()
+            res.status(200).json({ message: 'Resumed the playback.' })
+        }
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+}
+
+module.exports = { getProfile, getCurrentSong, skipToPreviousSong, skipToNextSong, togglePlayback }

@@ -36,35 +36,35 @@ const UserStats = () => {
     }
 
     return (
-        <div className='bg-lightgray w-3/5 h-fit font-kanit p-lg rounded-sm'>
-            <div className='w-full flex flex-nowrap space-x-lg mb-lg'>
-                <button className={`w-1/2 py-md text-sm rounded-full transition 
+        <div className='bg-lightgray xl:w-3/5 w-full h-fit font-kanit md:p-lg p-md rounded-sm'>
+            <div className='w-full flex sm:flex-nowrap flex-wrap md:space-x-lg sm:space-x-sm space-x-[0px] sm:space-y-[0px] space-y-sm mb-lg'>
+                <button className={`sm:w-1/2 w-full py-md md:text-sm text-vsm rounded-full transition 
                 border-[1px] border-solid border-blue
                 ${currentStats === 'artists' ? 'bg-blue text-gray' : 'bg-lightgrey text-white hover:border-lightblue'}`}
                 onClick={() => handleClick('artists')}>
                     TOP ARTISTS
                 </button>
-                <button className={`w-1/2 py-md text-sm rounded-full transition 
+                <button className={`sm:w-1/2 w-full py-md md:text-sm text-vsm rounded-full transition 
                 border-[1px] border-solid border-blue
                 ${currentStats === 'tracks' ? 'bg-blue text-gray' : 'bg-lightgrey text-white hover:border-lightblue'}`}
                 onClick={() => handleClick('tracks')}>
                     TOP TRACKS
                 </button>
             </div>
-            <div className='w-full flex flex-nowrap space-x-lg mb-[45px]'>
-                <button className={`w-1/3 py-md text-vsm rounded-full transition 
+            <div className='w-full flex sm:flex-nowrap flex-wrap md:space-x-lg sm:space-x-sm space-x-[0px] sm:space-y-[0px] space-y-sm mb-[45px]'>
+                <button className={`sm:w-1/3 w-full py-md md:text-vsm text-vvsm rounded-full transition 
                 border-[1px] border-solid border-lightblue
                 ${currentTimestamp === 'all time' ? 'bg-lightblue text-gray' : 'bg-lightgrey text-white hover:border-blue'}`}
                 onClick={() => handleTimestampChange('all time')}>
                     ALL TIME
                 </button>
-                <button className={`w-1/3 py-md text-vsm rounded-full transition 
+                <button className={`sm:w-1/3 w-full py-md md:text-vsm text-vvsm rounded-full transition 
                 border-[1px] border-solid border-lightblue
                 ${currentTimestamp === '6 months' ? 'bg-lightblue text-gray' : 'bg-lightgrey text-white hover:border-blue'}`}
                 onClick={() => handleTimestampChange('6 months')}>
                    6 MONTHS
                 </button>
-                <button className={`w-1/3 py-md text-vsm rounded-full transition 
+                <button className={`sm:w-1/3 w-full py-md md:text-vsm text-vvsm rounded-full transition 
                 border-[1px] border-solid border-lightblue
                 ${currentTimestamp === 'last month' ? 'bg-lightblue text-gray' : 'bg-lightgrey text-white hover:border-blue'}`}
                 onClick={() => handleTimestampChange('last month')}>

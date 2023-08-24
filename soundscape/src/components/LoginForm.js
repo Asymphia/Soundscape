@@ -55,8 +55,8 @@ const LoginForm = () => {
                 { error && <div className='font-kanit md:text-sm text-vsm text-red text-center'>{ error }</div> }
             </form>
             <p className='font-kanit md:text-sm text-vsm text-white text-center mt-vlg'>
-                New to Soundscape?
-                <Link to='/signup' className='underline'> Register right now!</Link>
+                New to Soundscape?&nbsp;
+                <Link to='/signup' className='underline'>Register right now!</Link>
             </p>
         </div>
     )

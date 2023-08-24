@@ -69,8 +69,8 @@ const SignupForm = () => {
                 { error && <div className='font-kanit md:text-sm text-vsm text-red text-center'>{ error }</div> }
             </form>
             <p className='font-kanit md:text-sm text-vsm text-white text-center mt-vlg'>
-                Already have an account?
-                <Link to='/login' className='underline'> Log in to Soundscape!</Link>
+                Already have an account?&nbsp;
+                <Link to='/login' className='underline'>Log in to Soundscape!</Link>
             </p>
         </div>
     )

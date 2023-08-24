@@ -17,7 +17,7 @@ export const SpotifyContextProvider = ({ children }) => {
     })
 
     useEffect(() => {
-        console.log(state)
+        console.log('spotify data', state)
     }, [state])
 
     return (

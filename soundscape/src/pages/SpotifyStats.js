@@ -4,6 +4,7 @@ import Menu from '../components/Menu'
 import { useSpotifyContext } from '../hooks/useSpotifyContext'
 import Stats from '../components/Stats'
 import Footer from '../components/Footer'
+import Loading from '../components/Loading'
 
 const SpotifyStats = () => {
     const { user } = useAuthContext()
@@ -32,10 +33,8 @@ const SpotifyStats = () => {
             if (response.ok) {
                 setIsLoading(false)
                 dispatch({type: 'SET_SPOTIFY_DATA', payload: json})
-                console.log(json)
             }
         }
-
 
         if(user){
             fetchData()
@@ -46,9 +45,9 @@ const SpotifyStats = () => {
         <div>
             <Menu currentPage={'Spotify Stats'}  />
             <div className='bg-gray w-full'>
-                { isLoading && <p>...</p> }
+                { isLoading && <Loading /> }
                 { error && <p>{ error }</p> }
-                { data && <Stats />}
+                { data && <Stats /> }
             </div>
             <Footer />
         </div>
