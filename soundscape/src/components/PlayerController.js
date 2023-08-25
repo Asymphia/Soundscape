@@ -94,7 +94,7 @@ const PlayerController = () => {
             { !error && !song.message &&
                 <>
                     <img src={song.image} alt={`${song.name} song cover`} className='h-[120px] w-[120px] rounded-sm m-auto' />
-                    <p className='font-kanit md:text-vsm text-vvsm text-center mt-md mb-vsm'>
+                    <p className='font-kanit md:text-sm text-vsm text-center mt-md mb-vsm'>
                         {song.artist} - {song.name}
                     </p>
                     <div className='flex flex-nowrap w-fit m-auto space-x-md'>

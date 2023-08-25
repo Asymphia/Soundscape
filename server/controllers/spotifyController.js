@@ -2,6 +2,8 @@ const User = require('../models/userModel')
 const jwt = require('jsonwebtoken')
 const SpotifyWebApi = require('spotify-web-api-node')
 const mongoose = require('mongoose')
+const fs = require('fs');
+const path = require('path');
 const {
     getUser,
     getUserTopArtists,
@@ -244,4 +246,171 @@ const togglePlayback = async (req, res) => {
     }
 }
 
-module.exports = { getProfile, getCurrentSong, skipToPreviousSong, skipToNextSong, togglePlayback }
+const getRecommendations = async (req, res) => {
+    const token = req.headers.authorization.split(' ')[1]
+    const decodedToken = jwt.verify(token, process.env.SECRET)
+    const id = decodedToken._id
+
+    const userId = new mongoose.Types.ObjectId(id)
+    const user = await User.findById(userId)
+
+    const spotifyApi = new SpotifyWebApi({
+        clientId: process.env.SPOTIFY_CLIENT_ID,
+        clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+        redirectUri: process.env.SPOTIFY_REDIRECT_URI,
+    })
+
+    try {
+        spotifyApi.setAccessToken(user.spotifyAccessToken)
+        spotifyApi.setRefreshToken(user.spotifyRefreshToken)
+
+        // Get user's top tracks to use in recommendations
+        const userTopTracks = await getUserTopTracks(spotifyApi)
+
+        // Extract track IDs from user's top tracks
+        const trackIds = userTopTracks.topTracksAllTime.map((track) => track.id)
+
+        // Get the number of songs requested in the query parameter (default to 10)
+        const limit = parseInt(req.query.limit) || 10
+
+        // Get recommendations based on user's top tracks
+        const recommendations = await spotifyApi.getRecommendations({
+            seed_tracks: trackIds.slice(0, 5), // Take the first 5 track IDs from user's top tracks
+            limit: limit // Limit the number of recommendations to 20 at most
+        })
+
+        const formattedRecommendations = recommendations.body.tracks.map((track) => ({
+            id: track.id,
+            preview_url: track.preview_url,
+            artist: track.album.artists[0].name,
+            image_url: track.album.images[2].url,
+            name: track.name
+        }));
+
+        res.status(200).json(formattedRecommendations)
+    } catch (err) {
+        if (err.statusCode === 401) {
+            try {
+                const newAccessToken = await refreshToken(id);
+                spotifyApi.setAccessToken(newAccessToken);
+
+                // Retry fetching recommendations
+                const recommendations = await spotifyApi.getRecommendations({
+                    seed_tracks: trackIds.slice(0, 5),
+                    limit: Math.min(limit)
+                })
+
+                const formattedRecommendations = recommendations.body.tracks.map((track) => ({
+                    id: track.id,
+                    preview_url: track.preview_url,
+                    artist: track.album.artists[0].name,
+                    image_url: track.album.images[2].url,
+                    name: track.name
+                }));
+
+                res.status(200).json(formattedRecommendations)
+            } catch (refreshErr) {
+                res.status(400).json({ error: refreshErr.message })
+            }
+        } else {
+            res.status(400).json({ error: err.message })
+        }
+    }
+}
+
+const createPlaylist = async (req, res) => {
+    const token = req.headers.authorization.split(' ')[1]
+    const decodedToken = jwt.verify(token, process.env.SECRET)
+    const userId = decodedToken._id
+    const trackIds = req.query.trackIds.split(',')
+    const extendedIds = trackIds.map(id => `spotify:track:${id}`)
+
+    const user = await User.findById(userId)
+
+    const spotifyApi = new SpotifyWebApi({
+        clientId: process.env.SPOTIFY_CLIENT_ID,
+        clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+        redirectUri: process.env.SPOTIFY_REDIRECT_URI
+    })
+
+    try {
+        spotifyApi.setAccessToken(user.spotifyAccessToken)
+        spotifyApi.setRefreshToken(user.spotifyRefreshToken)
+
+        const playlistName = 'Soundscape Playlist'
+        const createdPlaylist = await spotifyApi.createPlaylist(playlistName, { 'description': 'Playlist Created via Soundscape recommendations', 'public': true })
+
+        const addTracksResponse = await spotifyApi.addTracksToPlaylist(createdPlaylist.body.id, extendedIds)
+
+        res.status(200).json({ playlistId: createdPlaylist.body.id })
+    } catch (err) {
+        if (err.statusCode === 401) {
+            try {
+                const newAccessToken = await refreshToken(id);
+                spotifyApi.setAccessToken(newAccessToken);
+
+                const playlistName = 'Soundscape Playlist'
+                const createdPlaylist = await spotifyApi.createPlaylist(playlistName, { 'description': 'Playlist Created via Soundscape recommendations', 'public': true })
+
+                const addTracksResponse = await spotifyApi.addTracksToPlaylist(createdPlaylist.body.id, extendedIds)
+
+                res.status(200).json({ playlistId: createdPlaylist.body.id })
+            } catch (refreshErr) {
+                res.status(400).json({ error: refreshErr.message })
+            }
+        } else {
+            res.status(400).json({ error: err.message })
+        }
+    }
+}
+
+const changePlaylistCover = async (req, res) => {
+    const playlistId = req.params.playlistId;
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    const userId = decodedToken._id;
+
+    const user = await User.findById(userId);
+
+    const spotifyApi = new SpotifyWebApi({
+        clientId: process.env.SPOTIFY_CLIENT_ID,
+        clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+        redirectUri: process.env.SPOTIFY_REDIRECT_URI,
+    });
+
+    try {
+        spotifyApi.setAccessToken(user.spotifyAccessToken);
+        spotifyApi.setRefreshToken(user.spotifyRefreshToken);
+
+        // Convert playlist cover image to Base64
+        const imagePath = path.join(__dirname, '../imgs/playlistCover.jpg');
+        const imageBase64 = fs.readFileSync(imagePath, { encoding: 'base64' });
+
+        // Change the playlist cover image
+        await spotifyApi.uploadCustomPlaylistCoverImage(playlistId, imageBase64);
+
+        res.status(200).json({ message: 'Playlist cover image changed successfully.' });
+    } catch (err) {
+        if (err.statusCode === 401) {
+            try {
+                const newAccessToken = await refreshToken(userId);
+                spotifyApi.setAccessToken(newAccessToken);
+
+                /// Convert playlist cover image to Base64
+                const imagePath = path.join(__dirname, '../imgs/playlistCover.jpg');
+                const imageBase64 = fs.readFileSync(imagePath, { encoding: 'base64' });
+
+                // Change the playlist cover image
+                await spotifyApi.uploadCustomPlaylistCoverImage(playlistId, imageBase64);
+
+                res.status(200).json({ message: 'Playlist cover image changed successfully.' });
+            } catch (refreshErr) {
+                res.status(400).json({ error: refreshErr.message });
+            }
+        } else {
+            res.status(400).json({ error: err.message });
+        }
+    }
+};
+
+module.exports = { getProfile, getCurrentSong, skipToPreviousSong, skipToNextSong, togglePlayback, getRecommendations, createPlaylist, changePlaylistCover }

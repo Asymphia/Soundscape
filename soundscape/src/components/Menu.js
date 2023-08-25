@@ -36,12 +36,12 @@ const Menu = ({ currentPage }) => {
                         Spotify Stats
                     </Link>
 
-                    <Link to='/' className={`flex flex-nowrap ${currentPage === 'Create Playlist' ? 'text-blue' : 'text-white hover:underline'}`} >
+                    <Link to='/create-playlist' className={`flex flex-nowrap ${currentPage === 'Create Playlist' ? 'text-blue' : 'text-white hover:underline'}`} >
                         <img src={currentPage === 'Create Playlist' ? createPlaylistActive : createPlaylist} className='mr-vsm' alt='link to creating playlist' />
                         Create Playlist
                     </Link>
 
-                    <Link to='/' className={`flex flex-nowrap ${currentPage === 'Settings' ? 'text-blue' : 'text-white hover:underline'}`} >
+                    <Link to='/settings' className={`flex flex-nowrap ${currentPage === 'Settings' ? 'text-blue' : 'text-white hover:underline'}`} >
                         <img src={currentPage === 'Settings' ? settingsActive : settings} className='mr-vsm' alt='link to settings' />
                         Settings
                     </Link>
@@ -50,7 +50,7 @@ const Menu = ({ currentPage }) => {
 
             <div className='text-center w-full'>
                 <div style={backgroundImageStyle} className={`w-vlg h-vlg rounded-full m-auto`}></div>
-                <p className='text-white mt-vsm mb-lg'>
+                <p className='text-white mt-vsm mb-lg break-words'>
                     Logged as: <br />
                     { data ? data.userData.email : '...' }
                 </p>

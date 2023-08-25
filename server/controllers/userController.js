@@ -46,7 +46,7 @@ const authorizeSpotify = async (req, res) => {
         redirectUri: process.env.SPOTIFY_REDIRECT_URI
     })
 
-    const scopes = ['user-read-private', 'user-read-email', 'user-top-read', 'user-read-playback-state', 'user-read-currently-playing', 'user-modify-playback-state', 'playlist-modify-public', 'playlist-modify-private']
+    const scopes = ['user-read-private', 'user-read-email', 'user-top-read', 'user-read-playback-state', 'user-read-currently-playing', 'user-modify-playback-state', 'playlist-modify-public', 'playlist-modify-private', 'ugc-image-upload']
 
     const authorizeURL = spotifyApi.createAuthorizeURL(scopes, userId, true)
 

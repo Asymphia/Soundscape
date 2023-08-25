@@ -36,7 +36,7 @@ const SpotifyStats = () => {
             }
         }
 
-        if(user){
+        if(user && !data){
             fetchData()
         }
     }, [dispatch, user])

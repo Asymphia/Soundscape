@@ -1,14 +1,17 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { useAuthContext } from './hooks/useAuthContext'
-import { useEffect } from 'react';
+import { useSpotifyContext } from './hooks/useSpotifyContext'
 
 // pages and components
 import SpotifyStats from './pages/SpotifyStats'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
+import CreatePlaylist from './pages/CreatePlaylist'
+import Settings from './pages/Settings'
 
 function App() {
     const { user } = useAuthContext()
+    const { data } = useSpotifyContext()
 
     return (
         <div className="App">
@@ -22,6 +25,12 @@ function App() {
                     </Routes>
                     <Routes>
                         <Route path="/" element={user ? <SpotifyStats /> : <Navigate to="/login" />} />
+                    </Routes>
+                    <Routes>
+                        <Route path="/create-playlist" element={user ? (data ? <CreatePlaylist /> : <Navigate to="/" />) : (<Navigate to="/login" />)} />
+                    </Routes>
+                    <Routes>
+                        <Route path="/settings" element={user ? (data ? <Settings /> : <Navigate to="/" />) : (<Navigate to="/login" />)} />
                     </Routes>
                 </div>
             </BrowserRouter>
