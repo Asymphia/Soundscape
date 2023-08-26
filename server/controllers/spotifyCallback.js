@@ -38,7 +38,7 @@ router.get('/spotify-callback', async (req, res) => {
         const userIdObjectId = new mongoose.Types.ObjectId(userId);
         const user = await User.findByIdAndDelete(userIdObjectId)
 
-        res.status(500).redirect('http://localhost:3000/signup');
+        res.status(500).redirect('http://localhost:3000/error');
     }
 });
 

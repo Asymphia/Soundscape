@@ -9,6 +9,8 @@ export const useLogout = () => {
 
         // dispatch logout action
         dispatch({type: 'LOGOUT'})
+
+        window.location.replace('/login')
     }
 
     return { logout }

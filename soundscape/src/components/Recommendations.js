@@ -1,9 +1,8 @@
 import RecommendedSong from './RecommendedSong'
-import Button from './Button'
 
 const Recommendations = ({ data, onClick, error, disabled }) => {
     return (
-        <div className='bg-lightgray w-fit h-fit md:p-lg p-md rounded-sm text-center'>
+        <div className='bg-lightgray w-fit max-w-[calc(100vw-185px)] h-fit md:p-lg p-md rounded-sm text-center'>
             <h2 className='font-nunito font-bold text-white md:text-sm text-vsm mb-lg text-center'>
                 Playlist based on your stats:
             </h2>
@@ -14,7 +13,9 @@ const Recommendations = ({ data, onClick, error, disabled }) => {
                     ))
                 }
             </div>
-            <Button text='SAVE PLAYLIST' onClick={onClick} additionalStyles={'mt-lg'} disabled={disabled} />
+            <button onClick={onClick} disabled={disabled} className='mt-lg sm:px-xl px-sm py-md w-fit bg-blue font-kanit md:text-sm text-vsm rounded-lg transition hover:bg-lightblue'>
+                SAVE PLAYLIST
+            </button>
             { error && <p className='font-kanit md:text-sm text-vsm text-red mt-vsm'>{ error }</p> }
         </div>
     )

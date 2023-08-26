@@ -43,7 +43,6 @@ const SpotifyStats = () => {
 
     return (
         <div>
-            <Menu currentPage={'Spotify Stats'}  />
             <div className='bg-gray w-full'>
                 { isLoading && <Loading /> }
                 { error && <p>{ error }</p> }

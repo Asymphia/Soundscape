@@ -25,15 +25,15 @@ const RecommendedSong = ({ name, artist, image, preview }) => {
     }
 
     return (
-        <div className='flex sm:flex-nowrap flex-wrap space-x-md text-white items-center'>
+        <div className='flex sm:flex-nowrap flex-wrap sm:space-x-md space-x-0 text-white items-center'>
             <img src={image} alt={name} className='w-vlg h-vlg rounded-sm sm:mx-0 mx-auto' />
-            <div>
-                <h4 className='font-kanit md:text-sm text-vsm flex sm:flex-nowrap flex-wrap sm:space-x-md space-x-0 items-center'>
+            <div className='sm:w-fit w-full'>
+                <h4 className='font-kanit md:text-sm text-vsm flex sm:flex-nowrap flex-wrap sm:space-x-md space-x-0 items-center sm:text-left text-center'>
                     <p className='sm:w-fit w-full sm:text-left text-center'>
                         { name }
                     </p>
 
-                    <img src={isPlaying ? previewImgActive : isHovered ? previewImgHover : previewImg} onClick={togglePlay} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} alt='preview song' className='cursor-pointer h-[24px] w-[24px] sm:mx-0 mx-auto' />
+                    <img src={isPlaying ? previewImgActive : isHovered ? previewImgHover : previewImg} onClick={togglePlay} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} alt='preview song' className='cursor-pointer h-[24px] sm:w-[24px] w-full sm:mx-0 mx-auto' />
                     {isPlaying && (
                         <audio controls autoPlay className='hidden' onPlay={changeVolume} onEnded={togglePlay}>
                             <source src={preview} type="audio/mp3" />

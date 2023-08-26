@@ -92,7 +92,6 @@ const CreatePlaylist = () => {
 
     return (
         <div>
-            <Menu currentPage={'Create Playlist'}  />
             <div className='bg-gray md:w-[calc(100%-200px)] w-[calc(100%-170px)] min-h-screen h-fit md:p-lg p-md md:ml-[200px] ml-[170px] flex justify-center items-center align-center content-center'>
                 {!data && !isCreated && <CreatePlaylistForm onClick={handleClick} onChange={(e) => setValue(e.target.value)} value={value} disabled={isLoading} error={error} />}
                 {data && !isCreated && <Recommendations data={data} onClick={handleCreatePlaylist} disabled={isLoading} error={error} />}
