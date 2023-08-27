@@ -2,7 +2,7 @@ const express = require('express')
 const spotifyCallback = require('../controllers/spotifyCallback');
 
 // controller functions
-const { loginUser, signupUser, authorizeSpotify } = require('../controllers/userController')
+const { loginUser, signupUser, authorizeSpotify, deleteUser } = require('../controllers/userController')
 
 const router = express.Router()
 
@@ -17,5 +17,8 @@ router.post('/auth', authorizeSpotify)
 
 // Spotify callback route
 router.use('/', spotifyCallback)
+
+// delete user
+router.delete('/delete', deleteUser)
 
 module.exports = router

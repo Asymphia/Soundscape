@@ -11,7 +11,8 @@ module.exports = {
         gray: '#121212',
         'gray-transparent': 'rgba(18, 18, 18, 0.7)',
         lightgray: '#1E1E1E',
-        red: '#CF6679'
+        red: '#CF6679',
+        lightred: '#9D626D'
       },
       spacing: {
         vsm: '5px',

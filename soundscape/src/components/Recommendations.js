@@ -14,7 +14,7 @@ const Recommendations = ({ data, onClick, error, disabled }) => {
                 }
             </div>
             <button onClick={onClick} disabled={disabled} className='mt-lg sm:px-xl px-sm py-md w-fit bg-blue font-kanit md:text-sm text-vsm rounded-lg transition hover:bg-lightblue'>
-                SAVE PLAYLIST
+                {disabled ? 'SAVING...' : 'SAVE PLAYLIST'}
             </button>
             { error && <p className='font-kanit md:text-sm text-vsm text-red mt-vsm'>{ error }</p> }
         </div>

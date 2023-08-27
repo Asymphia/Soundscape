@@ -13,7 +13,7 @@ const CreatePlaylistForm = ({ onClick, onChange, value, disabled, error }) => {
             /> <br />
             { error && <p className='font-kanit md:text-sm text-vsm text-red mt-vsm'>{ error }</p> }
             <button onClick={onClick} disabled={disabled} className='mt-lg sm:px-xl px-sm py-md w-fit bg-blue font-kanit md:text-sm text-vsm rounded-lg transition hover:bg-lightblue'>
-                CREATE A PLAYLIST
+                { disabled ? 'CREATING...' : 'CREATE A PLAYLIST' }
             </button>
         </div>
     )

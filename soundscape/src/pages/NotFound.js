@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import arrow from '../imgs/arrow.png'
+import arrow from '../imgs/arrow-left.png'
 
 const NotFound = () => {
     return (

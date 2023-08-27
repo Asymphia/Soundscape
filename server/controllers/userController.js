@@ -1,6 +1,7 @@
 const User = require('../models/userModel')
 const jwt = require('jsonwebtoken')
 const SpotifyWebApi = require('spotify-web-api-node')
+const mongoose = require('mongoose')
 
 const createToken = (_id) => {
     return jwt.sign({ _id }, process.env.SECRET, { expiresIn: '3d' });
@@ -53,8 +54,28 @@ const authorizeSpotify = async (req, res) => {
     res.status(200).json({ authorizeURL })
 }
 
+// delete user
+const deleteUser = async (req, res) => {
+    const token = req.headers.authorization.split(' ')[1]
+    const decodedToken = jwt.verify(token, process.env.SECRET)
+    const userId = decodedToken._id
+
+    if(!mongoose.Types.ObjectId.isValid(userId)){
+        return res.status(404).json({error: 'No such user'})
+    }
+
+    const user = await User.findOneAndDelete({_id: userId})
+
+    if(!user){
+        return res.status(404).json({error: 'No such user'})
+    }
+
+    res.status(200).json(user)
+}
+
 module.exports = {
     loginUser,
     signupUser,
-    authorizeSpotify
+    authorizeSpotify,
+    deleteUser
 }
