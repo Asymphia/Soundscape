@@ -11,7 +11,7 @@ const PrivacyPolicyLink = () => {
                 <p>
                     See how we use your data, to provide you with our service
                 </p>
-                <Link to='/' className='block hover:underline'>
+                <Link to='/privacy-policy' className='block hover:underline'>
                     View
                     <img src={arrow} alt='View our privacy policy' className='inline h-[24px] w-[24px]' />
                 </Link>

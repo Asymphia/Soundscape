@@ -7,7 +7,7 @@ const LoginRegisterVideo = () => {
     let bgVideo, url
     const path = useLocation().pathname
 
-    if(path === '/login'){
+    if(path === '/login' || path === '/reset-password'){
         bgVideo = loginVideo
         url = 'https://youtu.be/koSM9dpk7uU'
     }

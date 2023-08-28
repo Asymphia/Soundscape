@@ -62,6 +62,13 @@ const SignupForm = () => {
 
                 <FormInput type="password" onChange={e => setRepeatPassword(e.target.value)} value={repeatPassword} placeholder={"Repeat password"} error={errorField.includes('repeatPassword')} />
 
+                <p className='font-kanit md:text-sm text-vsm text-white'>
+                    By registering on our site, you agree to our&nbsp;
+                    <Link to='/privacy-policy' className='underline'>
+                    privacy policy.
+                    </Link>
+                </p>
+
                 <div className='flex justify-center pt-lg'>
                     <Button text={"SIGN UP"} disabled={isLoading} />
                 </div>

@@ -2,8 +2,8 @@ const User = require('../models/userModel')
 const jwt = require('jsonwebtoken')
 const SpotifyWebApi = require('spotify-web-api-node')
 const mongoose = require('mongoose')
-const fs = require('fs');
-const path = require('path');
+const fs = require('fs')
+const path = require('path')
 const {
     getUser,
     getUserTopArtists,
@@ -61,9 +61,9 @@ const getAssets = async (spotifyApi, user) => {
 
 // get user's profile
 const getProfile = async (req, res) => {
-    const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    const id = decodedToken._id;
+    const token = req.headers.authorization.split(' ')[1]
+    const decodedToken = jwt.verify(token, process.env.SECRET)
+    const id = decodedToken._id
 
     const userId = new mongoose.Types.ObjectId(id)
     const user = await User.findById(userId)

@@ -44,7 +44,7 @@ const LoginForm = () => {
 
                 <FormInput type="password" onChange={e => setPassword(e.target.value)} value={password} placeholder={"Password"} error={errorField.includes('password')} />
 
-                <Link to='/' className='block cursor-pointer text-right text-white font-kanit md:text-sm text-vsm pb-lg'>
+                <Link to='/reset-password' className='block cursor-pointer text-right text-white font-kanit md:text-sm text-vsm pb-lg'>
                     Forgot password?
                 </Link>
 

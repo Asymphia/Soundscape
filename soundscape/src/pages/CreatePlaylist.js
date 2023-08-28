@@ -1,4 +1,3 @@
-import Menu from '../components/Menu'
 import Footer from '../components/Footer'
 import CreatePlaylistForm from '../components/CreatePlaylistForm'
 import { useState } from 'react'

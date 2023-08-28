@@ -2,8 +2,11 @@ const express = require('express')
 
 // controller functions
 const { getProfile, getCurrentSong, skipToPreviousSong, skipToNextSong, togglePlayback, getRecommendations, createPlaylist, changePlaylistCover } = require('../controllers/spotifyController')
+const requireAuth = require('../middlewares/requireAuth')
 
 const router = express.Router()
+
+router.use(requireAuth)
 
 // spotify profile route
 router.get('/getProfile', getProfile)
