@@ -3,7 +3,7 @@ import { useState } from 'react'
 export const useSignup = () => {
     const [error, setError] = useState(null)
     const [isLoading, setIsLoading] = useState(null)
-    const [spotifyAuthorizeURL, setSpotifyAuthorizeURL] = useState('');
+    const [spotifyAuthorizeURL, setSpotifyAuthorizeURL] = useState('')
 
     const signup = async (email, password) => {
         setIsLoading(true)
@@ -40,12 +40,12 @@ export const useSignup = () => {
 
             if(res.ok){
                 const { authorizeURL } = jsonRes
-                setSpotifyAuthorizeURL(authorizeURL);
+                setSpotifyAuthorizeURL(authorizeURL)
 
                 setIsLoading(false)
 
                 // Redirect the user to the Spotify authorization page
-                window.location.href = authorizeURL;
+                window.location.href = authorizeURL
             }
         }
     }

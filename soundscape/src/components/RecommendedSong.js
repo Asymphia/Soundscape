@@ -1,14 +1,14 @@
 import previewImg from '../imgs/preview.svg'
 import previewImgActive from '../imgs/preview-active.svg'
 import previewImgHover from '../imgs/preview-hover.svg'
-import {useState} from 'react'
+import { useState } from 'react'
 
 const RecommendedSong = ({ name, artist, image, preview }) => {
     const [isPlaying, setIsPlaying] = useState(false)
     const [isHovered, setIsHovered] = useState(false)
 
     const togglePlay = () => {
-        setIsPlaying(!isPlaying);
+        setIsPlaying(!isPlaying)
     }
 
     const changeVolume = (event) => {
@@ -17,11 +17,11 @@ const RecommendedSong = ({ name, artist, image, preview }) => {
     }
 
     const handleMouseEnter = () => {
-        setIsHovered(true);
+        setIsHovered(true)
     }
 
     const handleMouseLeave = () => {
-        setIsHovered(false);
+        setIsHovered(false)
     }
 
     return (

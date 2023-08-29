@@ -1,6 +1,5 @@
 import { useAuthContext } from '../hooks/useAuthContext'
 import { useState, useEffect } from 'react'
-import Menu from '../components/Menu'
 import { useSpotifyContext } from '../hooks/useSpotifyContext'
 import Stats from '../components/Stats'
 import Footer from '../components/Footer'
@@ -39,7 +38,7 @@ const SpotifyStats = () => {
         if(user && !data){
             fetchData()
         }
-    }, [dispatch, user])
+    }, [dispatch, user, data])
 
     return (
         <div>

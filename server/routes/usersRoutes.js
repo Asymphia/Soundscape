@@ -1,5 +1,5 @@
 const express = require('express')
-const spotifyCallback = require('../controllers/spotifyCallback');
+const spotifyCallback = require('../controllers/spotifyCallback')
 
 // controller functions
 const { loginUser, signupUser, authorizeSpotify, deleteUser, checkCode, resetPassword } = require('../controllers/userController')

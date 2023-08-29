@@ -1,4 +1,4 @@
-import {useState} from "react";
+import { useState } from "react"
 import logo from '../imgs/Logo.svg'
 import CodeValidation from './CodeValidation'
 import SubmitNewPassword from './SubmitNewPassword'

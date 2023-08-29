@@ -4,7 +4,7 @@ import top3 from '../imgs/topSongsIcons/top3.svg'
 import previewImg from '../imgs/preview.svg'
 import previewImgActive from '../imgs/preview-active.svg'
 import previewImgHover from '../imgs/preview-hover.svg'
-import {useState} from 'react'
+import { useState } from 'react'
 
 const ArtistSong = ({image, num, name, preview}) => {
     let topImage
@@ -29,11 +29,11 @@ const ArtistSong = ({image, num, name, preview}) => {
     }
 
     const handleMouseEnter = () => {
-        setIsHovered(true);
+        setIsHovered(true)
     }
 
     const handleMouseLeave = () => {
-        setIsHovered(false);
+        setIsHovered(false)
     }
 
     return (

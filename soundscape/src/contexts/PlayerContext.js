@@ -1,4 +1,4 @@
-import { createContext, useReducer, useEffect } from 'react'
+import { createContext, useReducer } from 'react'
 
 export const PlayerContext = createContext()
 
@@ -15,10 +15,6 @@ export const PlayerContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(playerReducer, {
         song: null
     })
-
-    useEffect(() => {
-        console.log('player', state)
-    }, [state])
 
     return (
         <PlayerContext.Provider value={{ ...state, dispatch }}>

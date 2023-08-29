@@ -24,7 +24,7 @@ const CreatePlaylist = () => {
                     headers: {
                         'Authorization': `Bearer ${user.token}`
                     }
-                });
+                })
 
                 if (response.ok) {
                     const resData = await response.json()

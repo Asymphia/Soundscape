@@ -35,7 +35,7 @@ const Player = () => {
 
             return () => {
                 clearInterval(interval)
-            };
+            }
         }
     }, [dispatch, user])
 

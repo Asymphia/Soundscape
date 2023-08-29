@@ -6,11 +6,11 @@ const StatEl = ({image, number, name, url}) => {
     const [isHovered, setIsHovered] = useState(false)
 
     const handleMouseEnter = () => {
-        setIsHovered(true);
+        setIsHovered(true)
     }
 
     const handleMouseLeave = () => {
-        setIsHovered(false);
+        setIsHovered(false)
     }
 
     return (

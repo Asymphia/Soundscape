@@ -5,10 +5,9 @@ import createPlaylist from '../imgs/menuIcons/createplaylist.svg'
 import createPlaylistActive from '../imgs/menuIcons/createplaylist-active.svg'
 import settings from '../imgs/menuIcons/settings.svg'
 import settingsActive from '../imgs/menuIcons/settings-active.svg'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useLogout } from '../hooks/useLogout'
 import { useSpotifyContext } from '../hooks/useSpotifyContext'
-import { useLocation } from 'react-router-dom'
 
 const Menu = () => {
     const { logout } = useLogout()
@@ -18,9 +17,8 @@ const Menu = () => {
         logout()
     }
 
-    const location = useLocation();
-    const section = location.pathname.split('/')[1]; // Pobierz fragment po '/'
-    console.log(section==='')
+    const location = useLocation()
+    const section = location.pathname.split('/')[1]
 
     const backgroundImageStyle = data && data.userData.image
         ? {

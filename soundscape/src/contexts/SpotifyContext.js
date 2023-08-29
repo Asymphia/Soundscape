@@ -1,4 +1,4 @@
-import { createContext, useReducer, useEffect } from 'react'
+import { createContext, useReducer } from 'react'
 
 export const SpotifyContext = createContext()
 
@@ -15,10 +15,6 @@ export const SpotifyContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(spotifyReducer, {
         data: null
     })
-
-    useEffect(() => {
-        console.log('spotify data', state)
-    }, [state])
 
     return (
         <SpotifyContext.Provider value={{ ...state, dispatch }}>

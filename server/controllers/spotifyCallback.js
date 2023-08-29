@@ -2,8 +2,9 @@ const express = require('express')
 const SpotifyWebApi = require('spotify-web-api-node')
 const User = require('../models/userModel')
 const mongoose = require('mongoose')
+const { encrypt } = require('../assets/encryption')
 
-const router = express.Router();
+const router = express.Router()
 
 router.get('/spotify-callback', async (req, res) => {
     const code = req.query.code
@@ -14,32 +15,28 @@ router.get('/spotify-callback', async (req, res) => {
         clientId: process.env.SPOTIFY_CLIENT_ID,
         clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
         redirectUri: process.env.SPOTIFY_REDIRECT_URI,
-    });
+    })
 
     try {
-        const data = await spotifyApi.authorizationCodeGrant(code);
+        const data = await spotifyApi.authorizationCodeGrant(code)
 
-        const accessToken = data.body.access_token
         const refreshToken = data.body.refresh_token
+        const encryptedToken = encrypt(refreshToken)
 
-        const userIdObjectId = new mongoose.Types.ObjectId(userId);
-        const user = await User.findByIdAndUpdate(userIdObjectId, {spotifyAccessToken: accessToken})
+        const userIdObjectId = new mongoose.Types.ObjectId(userId)
+        const user = await User.findByIdAndUpdate(userIdObjectId, {spotifyRefreshToken: encryptedToken})
 
         if(!user){
-            throw new Error('User not found')
+            res.status(404).json({error: 'User not found'})
         }
-
-        user.spotifyAccessToken = accessToken
-        user.spotifyRefreshToken = refreshToken
-        await user.save();
 
         res.redirect(`http://localhost:3000/login`)
     } catch (err) {
-        const userIdObjectId = new mongoose.Types.ObjectId(userId);
+        const userIdObjectId = new mongoose.Types.ObjectId(userId)
         const user = await User.findByIdAndDelete(userIdObjectId)
 
-        res.status(500).redirect('http://localhost:3000/error');
+        res.status(500).redirect('http://localhost:3000/error')
     }
-});
+})
 
-module.exports = router;
+module.exports = router

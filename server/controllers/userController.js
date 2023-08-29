@@ -6,8 +6,8 @@ const bcrypt = require('bcrypt')
 const validator = require('validator')
 
 const createToken = (_id) => {
-    return jwt.sign({ _id }, process.env.SECRET, { expiresIn: '3d' });
-};
+    return jwt.sign({ _id }, process.env.SECRET, { expiresIn: '3d' })
+}
 
 // login user
 const loginUser = async (req, res) => {
@@ -33,7 +33,7 @@ const signupUser = async (req, res) => {
         const user = await User.signup(email, password)
         const userId = user._id
 
-        res.status(200).json({ userId });
+        res.status(200).json({ userId })
     } catch (err) {
         res.status(400).json({error: err.message})
     }
@@ -58,21 +58,25 @@ const authorizeSpotify = async (req, res) => {
 
 // delete user
 const deleteUser = async (req, res) => {
-    const token = req.headers.authorization.split(' ')[1]
-    const decodedToken = jwt.verify(token, process.env.SECRET)
-    const userId = decodedToken._id
+    try{
+        const token = req.headers.authorization.split(' ')[1]
+        const decodedToken = jwt.verify(token, process.env.SECRET)
+        const userId = decodedToken._id
 
-    if(!mongoose.Types.ObjectId.isValid(userId)){
-        return res.status(404).json({error: 'No such user'})
+        if(!mongoose.Types.ObjectId.isValid(userId)){
+            return res.status(404).json({error: 'No such user'})
+        }
+
+        const user = await User.findOneAndDelete({_id: userId})
+
+        if(!user){
+            return res.status(404).json({error: 'No such user'})
+        }
+
+        res.status(200).json(user)
+    } catch (err){
+        res.status(500).json({error: err.message})
     }
-
-    const user = await User.findOneAndDelete({_id: userId})
-
-    if(!user){
-        return res.status(404).json({error: 'No such user'})
-    }
-
-    res.status(200).json(user)
 }
 
 // check reset password code
