@@ -47,7 +47,7 @@ const SendMeMessage = () => {
     }
 
     return (
-        <div className='bg-lightgray h-fit md:w-1/2 w-full text-white md:p-lg p-md rounded-sm'>
+        <div className='bg-lightgray h-fit lg:w-1/2 w-full text-white md:p-lg p-md rounded-sm'>
             <h2 className='font-nunito font-bold md:text-sm text-vsm mb-lg text-center'>
                 Any problems? Send me a message!
             </h2>

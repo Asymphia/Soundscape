@@ -36,7 +36,7 @@ const DeleteAccount = () => {
 
 
     return (
-        <div className='bg-lightgray h-fit md:w-1/2 w-full text-white md:p-lg p-md rounded-sm mx-auto'>
+        <div className='bg-lightgray h-fit lg:w-1/2 w-full text-white md:p-lg p-md rounded-sm mx-auto'>
             <h2 className='font-nunito font-bold md:text-sm text-vsm mb-lg text-center'>
                 Delete Account
             </h2>
